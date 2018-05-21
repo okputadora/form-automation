@@ -6,3 +6,18 @@ body {
 a {
   color: #00B7FF;
 }
+
+.form {
+  display: flex;
+  flex-flow: column;
+}
+
+input{
+  width: 500px;
+}
+
+button {
+  width: 200px;
+  margin-top: 10px;
+  cursor: pointer;
+}
