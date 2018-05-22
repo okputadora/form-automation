@@ -20,10 +20,22 @@ module.exports = {
   create: (params, auth) => {
     console.log(params)
     return new Promise((resolve, reject) => {
-      const script = google.script({version: 'v1', auth})
-      let form = script.
-      resolve(form.getEditUrl())
-    })    
+      // map the incoming form body to the google form creators
 
+      const script = google.script({version: 'v1', auth})
+      let formCreator = script.projects.run({
+        scriptId: process.env.FORM_SCRIPT,
+        requestBody: {
+            parameters: [
+              teacherName: params.teacherName,
+              students: params.class // we actually need to have the teacher enter everyones name under a class and then when they select that class we populate this students param with everyones name
+              assignmentName: params.assignmentName,
+              question: params.question
+            ]
+        }
+      }, (err, { data }) => {
+        resolve(data)
+      })
+    })    
   }
 }
