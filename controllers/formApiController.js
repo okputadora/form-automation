@@ -4,7 +4,7 @@ module.exports = {
   authenticate: (auth) => {
     return new Promise((resolve, reject) => {
       // authorize the teacher's account so we can make a form on their behalf
-      const SCOPES = ['https://www.googleapis.com/auth/script.projects', 'https://www.googleapis.com/auth/forms'];
+      const SCOPES = ['https://www.googleapis.com/auth/script.projects', 'https://www.googleapis.com/auth/forms', 'https://www.googleapis.com/auth/script.external_request'];
       const TOKEN_PATH = 'credentials.json';
 
       const url = auth.generateAuthUrl({
@@ -20,21 +20,19 @@ module.exports = {
     console.log(params)
     return new Promise((resolve, reject) => {
       // map the incoming form body to the google form creators
-
       const script = google.script({version: 'v1', auth})
       let formCreator = script.scripts.run({
         scriptId: process.env.FORM_SCRIPT,
-        requestBody: {
-            parameters: {
-              teacherName: params.teacherName,
-              students: params.class, // we actually need to have the teacher enter everyones name under a class and then when they select that class we populate this students param with everyones name
-              assignmentName: params.assignmentName,
-              question: params.question
-            }
-        }
+        function: 'createForm',
+        // data: [
+        //   params.teacherName,
+        //   params.class, // we actually need to have the teacher enter everyones name under a class and then when they select that class we populate this students param with everyones name
+        //   params.assignmentName,
+        //   params.question
+        // ]
+        // }
       }, (err, data) => {
         if (err) {
-          console.log("ERROR: ",err)
           return reject(err)
         }
         resolve(data)

@@ -7,6 +7,7 @@ const oAuth2Client = new google.auth.OAuth2(
   process.env.CLIENT_SECRET,
   "http://localhost:3000/form",
   process.env.API_KEY,
+  process.env.SCRIPT_KEY
 );
 const router = express.Router();
 
@@ -42,7 +43,7 @@ router.post('/makeForm', function(req, res, next) {
   console.log("in the post route")
   formApi.create(req.body, oAuth2Client)
   .then(result => {
-      console.log(result)
+      console.log("RESULT ", result.data)
       res.send('respond with a resource');
   })
   .catch(err => res.send(err))
