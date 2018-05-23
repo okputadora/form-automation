@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
   .catch(err => {
     console.log("error: ", err)
   })
-  
+
 });
 
 router.get('/form', function(req, res, next) {
@@ -33,9 +33,9 @@ router.get('/form', function(req, res, next) {
   oAuth2Client.getToken(code, (err, token) => {
       // if (err) return callback(err);
       oAuth2Client.setCredentials(token);
-      res.render('form');    
+      res.render('form');
   });
-  
+
 })
 
 router.post('/makeForm', function(req, res, next) {
@@ -45,6 +45,7 @@ router.post('/makeForm', function(req, res, next) {
       console.log(result)
       res.send('respond with a resource');
   })
+  .catch(err => res.send(err))
 });
 
 module.exports = router;
