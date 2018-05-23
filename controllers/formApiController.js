@@ -6,7 +6,7 @@ module.exports = {
       // authorize the teacher's account so we can make a form on their behalf
       const SCOPES = ['https://www.googleapis.com/auth/script.projects'];
       const TOKEN_PATH = 'credentials.json';
-  
+
       const url = auth.generateAuthUrl({
         // 'online' (default) or 'offline' (gets refresh_token)
         access_type: 'offline',
@@ -26,16 +26,16 @@ module.exports = {
       let formCreator = script.projects.run({
         scriptId: process.env.FORM_SCRIPT,
         requestBody: {
-            parameters: [
+            parameters: {
               teacherName: params.teacherName,
-              students: params.class // we actually need to have the teacher enter everyones name under a class and then when they select that class we populate this students param with everyones name
+              students: params.class, // we actually need to have the teacher enter everyones name under a class and then when they select that class we populate this students param with everyones name
               assignmentName: params.assignmentName,
               question: params.question
-            ]
+            }
         }
       }, (err, { data }) => {
         resolve(data)
       })
-    })    
+    })
   }
 }
